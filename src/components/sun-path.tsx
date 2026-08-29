@@ -151,6 +151,14 @@ export function SunPath({
               height={PLOT_HEIGHT}
             />
           </clipPath>
+          <clipPath id={`${gradientId}-above-horizon`}>
+            <rect
+              x={PAD_LEFT}
+              y={PAD_TOP}
+              width={PLOT_WIDTH}
+              height={Math.max(0, chart.horizonY - PAD_TOP)}
+            />
+          </clipPath>
         </defs>
 
         <g clipPath={`url(#${gradientId}-plot)`}>
@@ -172,7 +180,9 @@ export function SunPath({
             />
           ))}
 
-          <path d={chart.daylightArea} fill={`url(#${gradientId}-day)`} />
+          <g clipPath={`url(#${gradientId}-above-horizon)`}>
+            <path d={chart.daylightArea} fill={`url(#${gradientId}-day)`} />
+          </g>
 
           {chart.hourTicks.map((tick) => (
             <line
